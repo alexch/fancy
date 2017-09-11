@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skiller</title>
+</head>
+<body>
+
+<h1>Fancy Formatter</h1>
+
+<table>
+    <tr>
+        <th>Input</th>
+        <th></th>
+        <th>Output</th>
+    </tr>
+    <tr>
+        <td>
+            <textarea id="input" rows="20" cols="40"></textarea>
+        </td>
+        <td valign="top">
+            <button id="format" onclick="format()" style="height: 4em; margin: 1em;">
+                >> Format >>
+            </button>
+        </td>
+        <td>
+            <textarea id="output" rows="20" cols="40"></textarea>
+        </td>
+    </tr>
+</table>
+
+<script>
+    function format() {
+        var inputWidget = document.getElementById("input");
+        var outputWidget = document.getElementById("output");
+
+        var input = inputWidget.value;
+
+        var output = formatted(input);
+
+        outputWidget.value = output;
+
+    }
+
+    function formatted(input) {
+        // strip or convert magic Word symbols
+        // one doc at a time
+        // input: line-break delimited or semicolon delimited
+        // output: comma-delimited (not CSV)
+        // alphabetical order
+        // title case
+
+        var output = input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return output;
+    }
+
+    function assert(input, expectedOutput, why) {
+        var actualOutput = formatted(input);
+        if (actualOutput == expectedOutput) {
+            console.log(
+                "Success: " + why + "\n");
+        }
+        else
+            {
+                console.log(
+                    "Failure: " + why + "\n" +
+                    "         Given: " + input + "\n" +
+                    "      Expected: " + expectedOutput + "\n" +
+                    "        Actual: " + actualOutput
+                );
+            }
+        }
+
+        function test() {
+            assert("", "", "empty string");
+            assert("Foo", "Foo", "simple word");
+            assert("brooke", "Brooke", "capitalized single word");
+            assert("brooke dooley", "Brooke Dooley", "capitalized two words");
+            assert("a tale of two cities", "A Tale Of Two Cities", "titlecase of a book title");
+        }
+
+</script>
+
+<script>
+    test();
+</script>
+</body>
+</html>
