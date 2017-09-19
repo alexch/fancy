@@ -29,101 +29,17 @@
     </tr>
 </table>
 
+<script src="fancy.js">
+</script>
 <script>
     function format() {
         var inputWidget = document.getElementById("input");
         var outputWidget = document.getElementById("output");
-
-        var input = inputWidget.value;
-
-        var output = formatted(input);
-
+        var output = formatText(inputWidget.value);
+        console.log(output);
         outputWidget.value = output;
-
     }
-
-    function formatted(input) {
-
-        // input: line-break delimited? or semicolon delimited?
-        // output: comma-delimited? line-break delimited?
-
-        // strip or convert magic Word symbols
-        // see http://www.andornot.com/blog/post/Replace-MS-Word-special-characters-in-javascript-and-C.aspx
-
-        // alphabetical order
-
-        // title case
-        // see https://capitalizemytitle.com/
-        // see https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript#
-
-        var first = true;
-        var output = input.trim().split(' ')
-            .map(function (word) {
-
-                var smallWords = [
-                    // articles
-                    'a', 'an', 'the',
-                    // conjunctions
-                    'and', 'but', 'or', 'nor',
-                    // prepositions
-                    'as',
-                    'at',
-                    'by',
-                    'for',
-                    'from',
-                    'in',
-                    'into',
-                    'near',
-                    'of',
-                    'on',
-                    'onto',
-                    'to',
-                    'with'
-                ];
-
-                if (smallWords.includes(word) && !first) {
-                    return word;
-                } else {
-                    first = false;
-                    return word.charAt(0).toUpperCase() + word.substr(1)
-                }
-            })
-            .join(' ');
-
-        return output;
-    }
-
-    function assert(input, expectedOutput, why) {
-        var actualOutput = formatted(input);
-        if (actualOutput == expectedOutput) {
-            console.log("Success: " + why + "\n");
-        }
-        else {
-            console.log(
-                "Failure: " + why + "\n" +
-                "         Given: " + input + "\n" +
-                "      Expected: " + expectedOutput + "\n" +
-                "        Actual: " + actualOutput
-            );
-        }
-    }
-
-    function test() {
-        assert("", "", "empty");
-        assert("   ", "", "all spaces");
-        assert("Foo", "Foo", "simple word");
-        assert("brooke", "Brooke", "capitalized single word");
-        assert("brooke dooley", "Brooke Dooley", "capitalized two words");
-        assert("a tale of two cities", "A Tale of Two Cities", "a book title");
-        assert("to russia with love", "To Russia with Love", "a movie title");
-        assert("the bridge over the river Kwai", "The Bridge Over the River Kwai", "another movie title");
-        assert("IUD insertion", "IUD Insertion", "an all-caps word (first word)");
-        assert("insertion of IUD", "Insertion of IUD", "with an all-caps word (not first)");
-        assert("insertion of IUDs", "Insertion of IUDs", "with an all-caps word pluralized");
-    }
-
 </script>
-
 <script>
     // run all tests on page load
     test();
