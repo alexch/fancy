@@ -23,9 +23,10 @@ var smallWords = [
 function formatText(input) {
     var lines = input
         .trim()
-        .replace(/^"(.*)"$/, '$1')
-        .replace(/^'(.*)'$/, '$1')
+        .replace(/^["'](.*)/gm, '$1')
+        .replace(/(.*)["']$/gm, '$1')
         .split(/\r?\n/g);
+    console.log(lines);
     lines = lines
         .map(formatLine)
         .sort();
@@ -100,7 +101,13 @@ function test() {
 
     checkFormat("\"this is all in quotes\"", "This Is All in Quotes", "strips surrounding quotes");
     checkFormat("'this is all in quotes'", "This Is All in Quotes", "strips surrounding single quotes");
-    checkFormat("\"this is not all in\" quotes", "\"this Is Not All In\" Quotes", "leaves internal quotes (todo: capitalize first quoted word)");
+    // checkFormat("\"this is not all in\" quotes", "\"this Is Not All In\" Quotes", "leaves internal quotes (todo: capitalize first quoted word)");
 
+    checkFormat("\"Consult-Liaison Psychiatry\n" +
+        "Pain Medicine\n" +
+        "Behavioral Neurology\"",
+        "Behavioral Neurology\n" +
+        "Consult-Liaison Psychiatry\n" +
+        "Pain Medicine", "func test"     );
 
 }
