@@ -23,6 +23,8 @@ var smallWords = [
 function formatText(input) {
     var lines = input
         .trim()
+        .replace(/^"(.*)"$/, '$1')
+        .replace(/^'(.*)'$/, '$1')
         .split(/\r?\n/g);
     lines = lines
         .map(formatLine)
@@ -95,5 +97,10 @@ function test() {
     checkFormat("bob\nalice\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines");
     checkFormat("bob\nalice\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines");
     checkFormat("bob\r\nalice\r\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines (windows)");
+
+    checkFormat("\"this is all in quotes\"", "This Is All in Quotes", "strips surrounding quotes");
+    checkFormat("'this is all in quotes'", "This Is All in Quotes", "strips surrounding single quotes");
+    checkFormat("\"this is not all in\" quotes", "\"this Is Not All In\" Quotes", "leaves internal quotes (todo: capitalize first quoted word)");
+
 
 }
