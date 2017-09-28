@@ -30,7 +30,7 @@ function formatText(input) {
     lines = lines
         .map(formatLine)
         .sort();
-    var output = lines.join('\n');
+    var output = lines.join(', ');
     return output;
 }
 
@@ -95,9 +95,9 @@ function test() {
     checkFormat("insertion of IUD", "Insertion of IUD", "with an all-caps word (not first)");
     checkFormat("insertion of IUDs", "Insertion of IUDs", "with an all-caps word pluralized");
 
-    checkFormat("bob\nalice\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines");
-    checkFormat("bob\nalice\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines");
-    checkFormat("bob\r\nalice\r\ncharlie", "Alice\nBob\nCharlie", "alphabetizes lines (windows)");
+    checkFormat("bob\nalice\ncharlie", "Alice, Bob, Charlie", "alphabetizes lines");
+    checkFormat("bob\nalice\ncharlie", "Alice, Bob, Charlie", "alphabetizes lines");
+    checkFormat("bob\r\nalice\r\ncharlie", "Alice, Bob, Charlie", "alphabetizes lines (windows)");
 
     checkFormat("\"this is all in quotes\"", "This Is All in Quotes", "strips surrounding quotes");
     checkFormat("'this is all in quotes'", "This Is All in Quotes", "strips surrounding single quotes");
@@ -106,8 +106,8 @@ function test() {
     checkFormat("\"Consult-Liaison Psychiatry\n" +
         "Pain Medicine\n" +
         "Behavioral Neurology\"",
-        "Behavioral Neurology\n" +
-        "Consult-Liaison Psychiatry\n" +
+        "Behavioral Neurology, " +
+        "Consult-Liaison Psychiatry, " +
         "Pain Medicine", "func test"     );
 
 }
