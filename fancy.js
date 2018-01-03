@@ -20,21 +20,35 @@ var smallWords = [
     'with'
 ];
 
-function formatText(input) {
+function formatText(input, capitalize) {
     var lines = input
         .trim()
         .replace(/^["'](.*)/gm, '$1')
         .replace(/(.*)["']$/gm, '$1')
         .split(/\r?\n/g);
-    console.log(lines);
-    lines = lines
-        .map(formatLine)
-        .sort();
+    // console.log(lines);
+    if (capitalize) {
+        lines = lines.map(formatLine);
+    }
+    lines = lines.sort();
     var output = lines.join(', ');
     return output;
 }
 
 function formatLine(input) {
+
+    var capitalizer;
+
+//        capitalizer = function (word) { return word; }
+
+        capitalizer = function (word) {
+            if (smallWords.includes(word) && !first) {
+                return word;
+            } else {
+                first = false;
+                return word.charAt(0).toUpperCase() + word.substr(1)
+            }
+        };
 
     // input: line-break delimited? or semicolon delimited?
     // output: comma-delimited? line-break delimited?
@@ -52,14 +66,7 @@ function formatLine(input) {
     var output = input
         .trim()
         .split(' ')
-        .map(function (word) {
-            if (smallWords.includes(word) && !first) {
-                return word;
-            } else {
-                first = false;
-                return word.charAt(0).toUpperCase() + word.substr(1)
-            }
-        })
+        .map(capitalizer)
         .join(' ');
 
     return output;
