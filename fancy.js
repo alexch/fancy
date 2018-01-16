@@ -20,7 +20,7 @@ var smallWords = [
     'with'
 ];
 
-function formatText(input, capitalize) {
+function formatText(input, capitalize, dedupe) {
     var lines = input
         .trim()
         .replace(/^["'](.*)/gm, '$1')
@@ -30,7 +30,16 @@ function formatText(input, capitalize) {
     if (capitalize) {
         lines = lines.map(formatLine);
     }
+
     lines = lines.sort();
+
+    if (dedupe) {
+        function unique(value, index, array) {
+            return array.indexOf(value) === index;
+        }
+        lines = lines.filter(unique);
+    }
+
     var output = lines.join(', ');
     return output;
 }
@@ -73,7 +82,7 @@ function formatLine(input) {
 }
 
 function checkFormat(originalText, expectedOutput, why) {
-    var actualOutput = formatText(originalText);
+    var actualOutput = formatText(originalText, true, true);
     if (actualOutput === expectedOutput) {
         console.log("Success: " + why + "\n");
     }
@@ -116,5 +125,8 @@ function test() {
         "Behavioral Neurology, " +
         "Consult-Liaison Psychiatry, " +
         "Pain Medicine", "func test"     );
+
+    checkFormat("dog\ncat\ndog\ndog\npig\ncat", "Cat, Dog, Pig", "dedupes lines");
+
 
 }

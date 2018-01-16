@@ -22,8 +22,14 @@
             <button id="format" onclick="format()" style="height: 4em; margin: 1em;">
                 >> Format >>
             </button>
-
-            <input type="checkbox" id="capitalize">Capitalize?</input>
+            <br>
+            <label>
+                <input type="checkbox" id="capitalize">Capitalize?</input>
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" id="dedupe">Dedupe?</input>
+            </label>
         </td>
         <td>
             <textarea id="output" rows="20" cols="40"></textarea>
@@ -38,7 +44,8 @@
         var inputWidget = document.getElementById("input");
         var outputWidget = document.getElementById("output");
         var capitalize = document.getElementById("capitalize");
-        var output = formatText(inputWidget.value, capitalize.checked);
+        var dedupe = document.getElementById("dedupe");
+        var output = formatText(inputWidget.value, capitalize.checked, dedupe.checked);
         console.log(output);
         outputWidget.value = output;
     }
